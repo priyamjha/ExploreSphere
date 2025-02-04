@@ -41,7 +41,7 @@ ExploreSphere is an interactive web application built using Django that allows u
 Clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/your-username/travelmate.git
+git clone https://github.com/priyamjha/ExploreSphere.git
 ```
 
 ### Step 2: Set up the environment
