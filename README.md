@@ -28,7 +28,7 @@ ExploreSphere is an interactive web application built using Django that allows u
 
 - Python 3.x
 - Django 3.x or higher
-- PostgreSQL (or other configured database)
+- Sqlite (or other configured database)
 - Stripe API Key
 - OpenWeather API Key
 - Ollama API Key
