@@ -205,5 +205,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Let me know if you'd like any further changes or specific additions!
 
-
-```
