@@ -196,11 +196,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Ollama API](https://ollama.com/) - AI-powered chatbot service used for dynamic responses.
 - [OpenWeather API](https://openweathermap.org/api) - Used for fetching weather information.
 
-```
-
-
-
----
 
 ### Key Updates:
 - **Comprehensive Overview**: The `README.md` provides a full description of your application, its features, and instructions on how to set it up.
@@ -210,5 +205,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Let me know if you'd like any further changes or specific additions!
 
----
 
+```
