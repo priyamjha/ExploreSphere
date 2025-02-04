@@ -3,7 +3,7 @@
 
 ## Description
 
-TravelMate is an interactive web application built using Django that allows users to explore different regions in India. It provides users with information about regional details, weather, cultural insights, travel tips, and more. Additionally, users can interact with a chatbot for dynamic queries, make subscription payments, and request support.
+ExploreSphere is an interactive web application built using Django that allows users to explore different regions in India. It provides users with information about regional details, weather, cultural insights, travel tips, and more. Additionally, users can interact with a chatbot for dynamic queries, make subscription payments, and request support.
 
 ## Features
 
@@ -198,7 +198,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ```
 
-```
+```bash
 ### Key Updates:
 - **Comprehensive Overview**: This `README.md` includes a full description of your application, its features, and how to set it up.
 - **Step-by-Step Setup**: It provides clear instructions on installing dependencies, setting up environment variables, and running the server.
