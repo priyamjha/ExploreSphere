@@ -198,6 +198,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ```
 
+```
 ### Key Updates:
 - **Comprehensive Overview**: This `README.md` includes a full description of your application, its features, and how to set it up.
 - **Step-by-Step Setup**: It provides clear instructions on installing dependencies, setting up environment variables, and running the server.
@@ -205,3 +206,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Usage Section**: Explains how users can interact with the app, including subscription management, chatbot usage, and region exploration.
 
 Let me know if you'd like further changes or specific additions!
+```
