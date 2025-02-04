@@ -198,12 +198,17 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ```
 
-```bash
-### Key Updates:
-- **Comprehensive Overview**: This `README.md` includes a full description of your application, its features, and how to set it up.
-- **Step-by-Step Setup**: It provides clear instructions on installing dependencies, setting up environment variables, and running the server.
-- **Technology Stack**: Clearly explains the tools used (Django, Stripe, Folium, Ollama, etc.).
-- **Usage Section**: Explains how users can interact with the app, including subscription management, chatbot usage, and region exploration.
 
-Let me know if you'd like further changes or specific additions!
-```
+
+---
+
+### Key Updates:
+- **Comprehensive Overview**: The `README.md` provides a full description of your application, its features, and instructions on how to set it up.
+- **Step-by-Step Setup**: Clear instructions are provided for installing dependencies, setting up environment variables, and running the server.
+- **Technology Stack**: The tools used in the project (Django, Stripe, Folium, Ollama, etc.) are clearly explained.
+- **Usage Section**: It details how users can interact with the app, including subscription management, chatbot functionality, and exploring different regions.
+
+Let me know if you'd like any further changes or specific additions!
+
+---
+
