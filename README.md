@@ -49,7 +49,7 @@ git clone https://github.com/your-username/travelmate.git
 Navigate to the project directory and create a virtual environment:
 
 ```bash
-cd travelmate
+cd ExploreSphere
 python -m venv venv
 source venv/bin/activate  # On Windows use 'venv\Scripts\activate'
 ```
@@ -142,47 +142,12 @@ You can now access the application at `http://127.0.0.1:8000/`.
 - **POST `/chatbot/<region_id>/`**: Send a user message to the chatbot for dynamic answers regarding the region.
 - **POST `/subscription/`**: Initiates the subscription process with Stripe.
   
-## Project Structure
-
-```
-travelmate/
-├── base/
-│   ├── migrations/
-│   ├── static/
-│   ├── templates/
-│   ├── models.py
-│   ├── views.py
-│   ├── forms.py
-│   ├── urls.py
-│   └── utils.py
-├── travelmate/
-│   ├── settings.py
-│   ├── urls.py
-│   ├── wsgi.py
-│   └── asgi.py
-├── manage.py
-├── requirements.txt
-├── .env
-└── README.md
-```
-
 ### Core Components
 
 - **models.py**: Defines all the database models including `Region`, `Subscription`, `ChatMessage`, and `CustomerRequest`.
 - **views.py**: Handles the main logic for rendering region pages, handling subscriptions, managing chatbot interactions, and processing support requests.
 - **forms.py**: Handles form rendering for user registration, profile updates, and support requests.
 - **utils.py**: Contains utility functions like fetching weather data and interacting with the Ollama API.
-
-## Contributing
-
-We welcome contributions! To contribute:
-
-1. Fork this repository.
-2. Create a new branch (`git checkout -b feature-branch`).
-3. Make your changes.
-4. Commit your changes (`git commit -am 'Add new feature'`).
-5. Push to the branch (`git push origin feature-branch`).
-6. Open a pull request.
 
 ## License
 
