@@ -168,5 +168,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Technology Stack**: The tools used in the project (Django, Stripe, Folium, Ollama, etc.) are clearly explained.
 - **Usage Section**: It details how users can interact with the app, including subscription management, chatbot functionality, and exploring different regions.
 
-Let me know if you'd like any further changes or specific additions!
 
