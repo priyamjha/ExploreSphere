@@ -1,0 +1,158 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<main class="subscription-page">
+    <div class="subscription-container">
+        <div class="subscription-box">
+            <h1 class="subscription-title">Ultimate Traveler Premium!</h1>
+            <p class="subscription-description">
+                Enjoy a complete AI-driven travel assistant with real-time updates, budget optimization, cultural insights, safety alerts, and exclusive travel deals. Your hassle-free travel experience starts here!
+            </p>
+
+            <ul class="feature-list">
+                <li><strong>AI-Powered Tools:</strong> Smart recommendations to optimize your travel experience.</li>
+                <li><strong>Exclusive Insights:</strong> Access to top attractions, local cuisines, and travel tips, more and more.</li>
+                <li><strong>Priority Support:</strong> 24/7 customer assistance for all your queries.</li>
+                <li><strong>Quick Links:</strong> Access to the links of Hotels, Cottages and Restaurants.</li>
+                <li><strong>Lifetime Access:</strong> Pay once, and enjoy premium features forever.</li>
+            </ul>
+
+            <form id="subscription-form" method="POST" class="subscription-form">
+                {% csrf_token %}
+                <button id="subscribe-btn" class="subscribe-button">Subscribe Now - ₹999</button>
+            </form>
+
+            <p class="subscription-note">One-time payment for lifetime access.</p>
+        </div>
+    </div>
+</main>
+
+<style>
+    /* Subscription Page Styles */
+    .subscription-page {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        padding: 20px;
+    }
+
+    .subscription-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .subscription-box {
+        background: #fff;
+        color: #000000;
+        border-radius: 20px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        padding: 100px; /* Increased padding */
+        text-align: center;
+        max-width: 1200px; /* Increased max-width */
+        width: 100%;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .subscription-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .subscription-title {
+        font-size: 5rem; /* Increased title size */
+        margin-bottom: 20px; /* Increased margin */
+    }
+
+    .subscription-description {
+        font-size: 2rem; /* Increased description font size */
+        margin-bottom: 40px; /* Increased margin */
+        color: #000000;
+    }
+
+    .feature-list {
+        list-style: none;
+        padding: 0;
+        margin: 30px 0; /* Increased margin */
+        text-align: left;
+        color: #000000;
+        font-size: 1.7rem; /* Increased font size */
+    }
+
+    .feature-list li {
+        margin-bottom: 15px; /* Increased margin */
+        padding-left: 20px;
+        position: relative;
+    }
+
+    .feature-list li::before {
+        content: "✔";
+        color: #3b82f6;
+        font-weight: bold;
+        margin-right: 15px; /* Increased space */
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    .subscription-form {
+        margin-top: 50px; /* Increased margin */
+    }
+
+    .subscribe-button {
+        background: #3b82f6;
+        color: #fff;
+        border: none;
+        padding: 20px 40px; /* Increased padding */
+        font-size: 1.5rem; /* Increased button text size */
+        border-radius: 30px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .subscribe-button:hover {
+        background: #9333ea;
+        transform: scale(1.1); /* Increased scale effect */
+    }
+
+    .subscription-note {
+        margin-top: 30px; /* Increased margin */
+        font-size: 1.5rem; /* Increased font size */
+        color: #000000;
+    }
+</style>
+
+
+<script>
+    const subscribeBtn = document.getElementById("subscribe-btn");
+
+    subscribeBtn.addEventListener("click", function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const priceId = "price_1QmAG5B0AFzNGze1iyf2oHd3"; // Replace with your Stripe one-time payment price ID
+
+        // Create a checkout session
+        fetch("{% url 'subscription_page' %}", {
+            method: "POST",
+            body: JSON.stringify({ priceId: priceId }),
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}",
+            },
+        })
+            .then((response) => response.json())
+            .then((session) => {
+                if (session.url) {
+                    window.location = session.url;
+                } else {
+                    console.error("Error creating checkout session:", session);
+                }
+            })
+            .catch((err) => console.error("Fetch error:", err));
+    });
+</script>
+{% endblock %}

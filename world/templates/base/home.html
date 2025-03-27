@@ -1,0 +1,304 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<main class="layout">
+  <!-- Popup HTML -->
+  <div id="statePopup" class="popup">
+    <div class="popup-content">
+      <h2 id="popupStateName"></h2>
+      <p id="popupBio"></p>
+      <button class="back-button" onclick="closePopup()">Back</button>
+      <button class="explore-button" onclick="exploreState()">Explore</button>
+    </div>
+  </div>
+  <div class="containers">
+
+
+    <!-- SVG Map Container -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" class="map-svg">
+      {% for state in states %}
+      <path id="{{ state.svg_id }}" class="state" d="{{ state.path_data }}" title="{{ state.name }}"
+        data-state="{{ state.name }}" data-bio="{{ state.bio }}" data-url="{% url 'region_list' state.id %}">
+      </path>
+      {% endfor %}
+    </svg>
+
+
+
+    <!-- Recent Activities Start -->
+    <div class="activities">
+      <div class="activities__header">
+        <h2>Recent Activities</h2>
+      </div>
+      <ul>
+        {% for activity in recent_activities %}
+        <li class="activity">
+          <div class="activity__avatar">
+            <img src="{{ activity.user.avatar.url }}" alt="{{ activity.user.username }}'s Avatar" />
+          </div>
+          <div class="activity__details">
+            <p><strong style="color: var(--color-main);">@{{ activity.user.username }}</strong> in <em>
+                <a href="{% url 'region_detail' region_id=activity.region.id %}">{{ activity.region.name }}</a></em>:
+            </p>
+            <p class="activity__time" style="font-size: x-small;">
+              {{ activity.timestamp|timesince }} ago
+            </p>
+            <div class="msg">
+              <p>
+                {{ activity.message|slice:"30" }}...
+              </p>
+            </div>
+
+          </div>
+        </li>
+        {% empty %}
+        <li>No recent activities.</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <!-- Recent Activities End -->
+
+
+  </div>
+
+
+
+  <script>
+    // Function to show the popup
+    function showPopup(stateName, bio, exploreUrl) {
+      // Set the state name and bio in the popup
+      document.getElementById('popupStateName').textContent = stateName;
+      document.getElementById('popupBio').textContent = bio;
+
+      // Set the explore URL
+      window.exploreUrl = exploreUrl; // Store the explore URL globally
+
+      // Show the popup
+      document.getElementById('statePopup').style.display = 'flex';
+    }
+
+    // Function to close the popup
+    function closePopup() {
+      document.getElementById('statePopup').style.display = 'none';
+    }
+
+    // Function to redirect to the explore page
+    function exploreState() {
+      window.location.href = window.exploreUrl;
+    }
+
+    // Add event listeners to all the states
+    document.querySelectorAll('.state').forEach(function (state) {
+      state.addEventListener('click', function () {
+        var stateName = this.getAttribute('data-state');
+        var bio = this.getAttribute('data-bio');
+        var exploreUrl = this.getAttribute('data-url');
+        showPopup(stateName, bio, exploreUrl);
+      });
+    });
+
+    // Close the popup if clicked outside of the content
+    document.getElementById('statePopup').addEventListener('click', function (event) {
+      if (event.target === this) {
+        closePopup();
+      }
+    });
+
+  </script>
+
+</main>
+
+
+
+
+
+<style>
+  .containers {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 80%;
+    margin: auto;
+  }
+
+  .map-svg {
+    width: 75%;
+    height: auto;
+    display: block;
+    margin: auto;
+    padding-left: 10%;
+  }
+
+  .map-svg .state {
+    fill: #d5ecfc;
+    stroke: #000;
+    stroke-width: 0.5;
+    cursor: pointer;
+    transition: fill 0.2s ease-in-out;
+    transform: translateY(60px);
+  }
+
+  .map-svg .state:hover {
+    fill: #74bef3;
+  }
+
+  /* Popup styles */
+  .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    /* Darker background */
+    display: none;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .popup-content {
+    background-color: #51546e;
+    /* Dark background for popup */
+    color: #fff;
+    /* White text for contrast */
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 30%;
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    /* Light shadow for depth */
+  }
+
+  .popup button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+  }
+
+  .popup .back-button {
+    background-color: #fc4b0b;
+    color: white;
+  }
+
+  .popup .explore-button {
+    background-color: #1c88a7;
+    color: white;
+  }
+
+  /* Hover effect for both buttons */
+  .popup button:hover {
+    transform: scale(1.1);
+    /* Slightly enlarges the button */
+    transition: transform 0.3s ease;
+    /* Smooth transition */
+  }
+
+  /* Hover effect for specific buttons */
+  .popup .back-button:hover {
+    background-color: #fc4b0b;
+    /* Darken the back button color */
+  }
+
+  .popup .explore-button:hover {
+    background-color: #1c88a7;
+    /* Darken the explore button color */
+  }
+
+  .activities {
+    padding: 10px;
+    border-radius: 8px;
+  }
+
+  .activities__header {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    padding: 0%;
+  }
+
+  .activity {
+    display: flex;
+    padding: 6px;
+    border: 2px solid var(--color-dark-medium);
+    border-radius: 5px;
+  }
+
+  .activity__avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  .activity__details p {
+    margin: 0;
+  }
+
+  .activities__time {
+    color: #888;
+  }
+
+  .activity a {
+    color: var(--color-main);
+    text-decoration: none;
+  }
+
+  .activity a:hover {
+    text-decoration: underline;
+  }
+
+  .activity__details em {
+    font-style: italic;
+    color: #71c6dd;
+  }
+
+  .msg {
+    background: var(--color-bg);
+    padding: 1rem;
+    border-radius: 5px;
+    margin-top: 1rem;
+    margin-left: -4.2rem;
+  }
+
+  /* Media Queries for responsiveness */
+  /* Responsive adjustments for small screen */
+@media (max-width: 768px) {
+  .map-svg {
+    width: 165%;
+    height: auto; /* Let the map take up more vertical space */
+  }
+
+  .containers {
+    flex-direction: column; /* Stack map and activities vertically on small screens */
+  }
+
+  .popup-content {
+    max-width: 80%; /* Allow more space on mobile */
+    padding: 15px;
+  }
+
+  .popup h2 {
+    font-size: 1.2em; /* Adjust font size for small screens */
+  }
+
+  .popup p {
+    font-size: 0.9em; /* Slightly smaller text for better readability */
+  }
+
+  .popup button {
+    font-size: 14px; /* Reduce font size of the buttons on mobile */
+    padding: 12px;
+  }
+
+  .popup .back-button, .popup .explore-button {
+    width: 100%; /* Full width for buttons on small screens */
+  }
+}
+
+</style>
+{% endblock %}

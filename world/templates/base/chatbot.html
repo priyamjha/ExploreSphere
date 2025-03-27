@@ -1,0 +1,249 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<main class="layout">
+
+    <div class="chat-container">
+        <!-- <h2>Explore {{ region.name }} with Your Personal Guide!</h2> -->
+        <h2>Discover the Secrets of {{ region.name }} with Our Chatbot!</h2>
+
+        <!-- Display chat messages -->
+        <div id="chat-box">
+            {% for message in conversation %}
+            <div class="message {% if message.role == 'user' %}user{% else %}bot{% endif %}">
+                {{ message.content|linebreaks }}
+            </div>
+            {% endfor %}
+
+            <!-- Render clickable options -->
+            <!-- Render clickable options -->
+            <div class="options">
+                {% if options %}
+                {% for option in options %}
+                <form method="post" style="width: 100%; display: block;">
+                    {% csrf_token %}
+                    <input type="hidden" name="message" value="{{ option }}">
+                    <button type="submit" class="option-btn">
+                        {{ option }}
+                        {% if option == '⚠️ Safety' %}
+                        - Learn about essential travel safety tips
+                        {% elif option == '💸 Cost' %}
+                        - Get an overview of your travel expenses
+                        {% elif option == '💡 Tips' %}
+                        - Helpful travel advice and recommendations
+                        {% elif option == '🏛️ Culture' %}
+                        - Discover local traditions and cultural practices
+                        {% endif %}
+                    </button>
+                </form>
+                {% endfor %}
+                {% endif %}
+            </div>
+
+        </div>
+
+        <!-- Form to send a new message -->
+        <div class="input-container">
+            <form method="post" style="width: 100%;">
+                {% csrf_token %}
+                <input type="text" name="message" id="user-message" placeholder="Type HI to start Conversation..."
+                    required>
+                <button type="submit" id="send-btn">Send</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript to automatically scroll to the bottom of the chat box -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var chatBox = $("#chat-box");
+            chatBox.scrollTop(chatBox[0].scrollHeight);
+        });
+    </script>
+
+    <style>
+        .chat-container {
+            background-color: var(--color-dark-medium);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            margin: 50px auto;
+            display: flex;
+            flex-direction: column;
+            height: 70vh;
+            /* Controls the overall height of the chat window */
+        }
+
+
+        /* Chat header */
+        .chat-container h2 {
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        /* Chat box */
+#chat-box {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    background-color: var(--color-dark);  /* Light gray background with transparency */
+    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Cpath d="M20 10 Q30 0, 50 10 Q70 20, 80 10 Q90 0, 100 10 Q90 20, 80 30 Q70 40, 50 30 Q30 20, 20 10" stroke="%23D3D3D3" fill="transparent" stroke-width="0.5" /%3E%3Cpath d="M10 80 Q20 70, 40 70 Q60 70, 70 80 Q60 90, 40 90 Q20 90, 10 80" stroke="%23D3D3D3" fill="transparent" stroke-width="0.5" /%3E%3Cpath d="M40 70 Q50 60, 60 70" stroke="%23D3D3D3" fill="transparent" stroke-width="0.5" /%3E%3C/svg%3E');
+    background-size: cover; /* Ensure the image covers the area */
+    background-position: center; /* Center the image */
+    font-size: 16px;
+    max-height: 500px;
+    height: 300px;
+    border-radius: 6px;
+    position: relative;
+}
+
+
+
+.message {
+    padding: 12px 16px;
+    border-radius: 20px;
+    max-width: 80%;
+    font-size: 15px;
+    line-height: 1.5;
+    word-wrap: break-word;
+    transition: background-color 0.3s, transform 0.3s;
+    position: relative;
+    z-index: 2; /* Ensure messages appear above the overlay */
+}
+
+.user {
+    align-self: flex-end;
+    background-color: #0061f2;
+    color: white;
+    border-radius: 20px 20px 0 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.bot {
+    align-self: flex-start;
+    background-color: #e9eff6;
+    color: #333;
+    border-radius: 20px 20px 20px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+
+        /* Option Buttons with more rounded corners */
+        .option-btn {
+            padding: 14px;
+            background-color: #0061f2;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.3s;
+            border-radius: 20px 0 20px 0;
+        }
+
+        .option-btn:hover {
+            background-color: #004bb5;
+            transform: translateY(-2px);
+        }
+
+        /* Input container */
+        .input-container {
+            background-color: var(--color-dark-medium);
+            color: white;
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        #user-message {
+            width: 75%;
+            padding: 14px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            outline: none;
+            font-size: 16px;
+            background-color: var(--color-dark-medium);
+
+            color: white;
+            margin-right: 12px;
+            transition: border-color 0.3s ease;
+        }
+
+        #user-message:focus {
+            border-color: var(--color-main);
+        }
+
+        #send-btn {
+            padding: 10px 20px;
+            font-size: 1.5rem;
+            color: white;
+            background-color: #1c88a7;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            border-radius: 20px;
+        }
+
+        #send-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Options section */
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-top: 15px;
+            align-self: flex-start;
+        }
+
+        .options form {
+            width: 100%;
+            display: block;
+        }
+
+        /* Smooth scrolling */
+        #chat-box {
+            scroll-behavior: smooth;
+        }
+
+        /* Responsive design for mobile */
+        @media (max-width: 500px) {
+            .chat-container {
+                width: 100%;
+                height: 100%;
+                border-radius: 0;
+            }
+
+            #chat-box {
+                padding: 15px;
+            }
+
+            #user-message {
+                width: 70%;
+            }
+
+            #send-btn {
+                font-size: 14px;
+            }
+
+            .option-btn {
+                font-size: 14px;
+            }
+        }
+    </style>
+</main>
+
+{% endblock %}

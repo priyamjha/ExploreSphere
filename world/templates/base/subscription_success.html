@@ -1,0 +1,107 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<main class="success-page">
+    <div class="success-container">
+        <h1 class="success-title">Yeah!</h1>
+        <!-- <h1 class="success-title">Subscription for {{ subscription.user.username }} - Active: {{ subscription.is_active }}</h1> -->
+        <p class="success-description">Payment date: {{ subscription.payment_date }}</p>
+
+        <p class="thank-you-message">Thank you for subscribing. You can now access all features!</p>
+        <a href="{% url 'home' %}" class="btn-home">Go to Home</a>
+    </div>
+</main>
+
+<style>
+    /* Success Page Styles */
+    .success-page {
+        min-height: 70vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        padding: 20px;
+    }
+
+    .success-container {
+        background: #fff;
+        color: #000;
+        border-radius: 20px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        padding: 60px 80px;
+        text-align: center;
+        max-width: 700px;
+        width: 100%;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .success-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .success-title {
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+        color: #000000;
+    }
+
+    .success-description {
+        font-size: 2rem;
+        margin-bottom: 40px;
+        color: #000000;
+    }
+
+    .thank-you-message {
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+        color: #000000;
+    }
+
+    .btn-home {
+        display: inline-block;
+        margin-top: 30px;
+        padding: 12px 25px;
+        background-color: #3b82f6;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-home:hover {
+        background-color: #9333ea;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Mobile-Friendly Adjustments */
+    @media (max-width: 600px) {
+        .success-container {
+            padding: 40px 20px;
+            max-width: 90%;
+        }
+
+        .success-title {
+            font-size: 2.5rem;
+        }
+
+        .success-description {
+            font-size: 1.5rem;
+        }
+
+        .thank-you-message {
+            font-size: 1.3rem;
+        }
+
+        .btn-home {
+            padding: 10px 20px;
+            font-size: 1rem;
+        }
+    }
+</style>
+
+{% endblock %}

@@ -1,0 +1,671 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<main class="layout">
+
+
+    {% if user.is_authenticated and user.subscription and user.subscription.is_active %}
+    <!-- SVG Button in Top Right Corner -->
+    <a href="{% url 'chatbot' region_id=region.id %}" class="explorebot-btn">
+        <!-- Updated SVG with larger size -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 122.88 119.35" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M57.49,29.2V23.53a14.41,14.41,0,0,1-2-.93A12.18,12.18,0,0,1,50.44,7.5a12.39,12.39,0,0,1,2.64-3.95A12.21,12.21,0,0,1,57,.92,12,12,0,0,1,61.66,0,12.14,12.14,0,0,1,72.88,7.5a12.14,12.14,0,0,1,0,9.27,12.08,12.08,0,0,1-2.64,3.94l-.06.06a12.74,12.74,0,0,1-2.36,1.83,11.26,11.26,0,0,1-2,.93V29.2H94.3a15.47,15.47,0,0,1,15.42,15.43v2.29H115a7.93,7.93,0,0,1,7.9,7.91V73.2A7.93,7.93,0,0,1,115,81.11h-5.25v2.07A15.48,15.48,0,0,1,94.3,98.61H55.23L31.81,118.72a2.58,2.58,0,0,1-3.65-.29,2.63,2.63,0,0,1-.63-1.85l1.25-18h-.21A15.45,15.45,0,0,1,13.16,83.18V81.11H7.91A7.93,7.93,0,0,1,0,73.2V54.83a7.93,7.93,0,0,1,7.9-7.91h5.26v-2.3A15.45,15.45,0,0,1,28.57,29.2H57.49ZM82.74,47.32a9.36,9.36,0,1,1-9.36,9.36,9.36,9.36,0,0,1,9.36-9.36Zm-42.58,0a9.36,9.36,0,1,1-9.36,9.36,9.36,9.36,0,0,1,9.36-9.36Zm6.38,31.36a2.28,2.28,0,0,1-.38-.38,2.18,2.18,0,0,1-.52-1.36,2.21,2.21,0,0,1,.46-1.39,2.4,2.4,0,0,1,.39-.39,3.22,3.22,0,0,1,3.88-.08A22.36,22.36,0,0,0,56,78.32a14.86,14.86,0,0,0,5.47,1A16.18,16.18,0,0,0,67,78.22,25.39,25.39,0,0,0,72.75,75a3.24,3.24,0,0,1,3.89.18,3,3,0,0,1,.37.41,2.22,2.22,0,0,1,.42,1.4,2.33,2.33,0,0,1-.58,1.35,2.29,2.29,0,0,1-.43.38,30.59,30.59,0,0,1-7.33,4,22.28,22.28,0,0,1-7.53,1.43A21.22,21.22,0,0,1,54,82.87a27.78,27.78,0,0,1-7.41-4.16l0,0ZM94.29,34.4H28.57A10.26,10.26,0,0,0,18.35,44.63V83.18A10.26,10.26,0,0,0,28.57,93.41h3.17a2.61,2.61,0,0,1,2.41,2.77l-1,14.58L52.45,94.15a2.56,2.56,0,0,1,1.83-.75h40a10.26,10.26,0,0,0,10.22-10.23V44.62A10.24,10.24,0,0,0,94.29,34.4Z"/>
+        </svg>
+    </a>
+{% endif %}
+
+
+    <h2><span class="emoji-placeholder"></span> {{ region.name }}</h2>
+    <div class="containers">
+        <!-- Left Column -->
+        <div class="left-column">
+
+            <!-- Chatroom Section -->
+            <div class="section">
+                <h2>Chatroom</h2>
+                <div class="chatroom" id="chatroom">
+                    {% for message in chat_messages %}
+                    <div class="message-container">
+                        <div class="message-avatar">
+                            <img src="{{ message.user.avatar.url }}" alt="{{ message.user.username }}'s Avatar" class="avatar-img" />
+                        </div>
+                        <p>
+                            <strong style="color: var(--color-main)">
+                                @{{ message.user.username }}
+                                <span class="message-timestamp">({{ message.timestamp|timesince }})</span>
+                            </strong>
+                            <br> {{ message.message|linebreaksbr }}
+                            <br>
+                            {% if message.user == user %}
+                            <span class="delete-cross">
+                                <a href="{% url 'delete_message' message.id %}" title="Delete Message">×</a>
+                            </span>
+                            {% endif %}
+                        </p>
+                    </div>
+                    {% empty %}
+                    <p>No messages yet. Be the first to say something!</p>
+                    <br>
+                    {% endfor %}
+                </div>
+            
+                {% if user.is_authenticated %}
+                <textarea id="messageText" rows="3" style="background-color: var(--color-dark-medium);  color: white; width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ddd;" placeholder="Type your message here..."></textarea>
+                <button id="sendMessage" class="bttn">Send</button>
+                {% else %}
+                <p>You must <a href="/login/">log in</a> to send messages.</p>
+                {% endif %}
+            </div>
+
+
+
+
+        </div>
+
+        <!-- Right Column -->
+        <div class="right-column">
+            <!-- Bio Section -->
+            <div class="section">
+                <h2>Bio</h2>
+                <p>{{ region.bio|linebreaks }}</p>
+            </div>
+
+            <!-- Weather Section -->
+            <div class="section">
+                <h2>Weather</h2>
+                {% if weather %}
+                <p>🌡️ Temperature: {{ weather.main.temp }}°C</p>
+                <p>☁️ Condition: {{ weather.weather.0.description|title }}</p>
+                <p>💧 Humidity: {{ weather.main.humidity }}%</p>
+                <p>🌬️ Wind Speed: {{ weather.wind.speed }} m/s</p>
+                {% else %}
+                <p>Weather information is currently unavailable.</p>
+                {% endif %}
+            </div>
+
+            {% if user.is_authenticated and user.subscription and user.subscription.is_active %}
+
+            <!-- Quick Links -->
+            <div class="section">
+                <h2>Quick Links</h2>
+                <ul>
+                    <li><a href="{% if region.hotels_url %}{{ region.hotels_url }}{% else %}https://www.trivago.in{% endif %}">🏨 Hotels</a></li>
+                    <li><a href="{% if region.cottages_url %}{{ region.cottages_url }}{% else %}https://www.makemytrip.com/hotels{% endif %}">🏡 Cottages</a></li>
+                    <li><a href="{% if region.restaurants_url %}{{ region.restaurants_url }}{% else %}https://www.zomato.com{% endif %}">🍽️ Restaurants</a></li>
+                </ul>
+            </div>
+            
+            {% endif %}
+
+
+            <!-- Location Map -->
+            <div class="section">
+                <h2>Location Map</h2>
+                <div class="map-container">
+                    {{ map_html|safe }}
+                </div>
+            </div>
+        </div>
+
+
+        <!-- down section -->
+        <div class="down">
+            {% if user.is_authenticated and user.subscription and user.subscription.is_active %}
+            <div class="down-row">
+                <!-- Top Attractions -->
+                <div class="down-box">
+                    <h2>Top Attractions</h2>
+                    <p>{{ region.top_attractions|linebreaksbr }}</p>
+                </div>
+
+                <!-- Local Cuisine -->
+                <div class="down-box">
+                    <h2>Local Cuisine</h2>
+                    <p>{{ region.local_cuisine|linebreaksbr }}</p>
+                </div>
+            </div>
+
+
+            <div class="down-row">
+                <!-- Events and Festivals -->
+                <div class="down-box">
+                    <h2>Events and Festivals</h2>
+                    <p>{{ region.events_festival|linebreaksbr }}</p>
+                </div>
+
+                <!-- Popular Activities -->
+                <div class="down-box">
+                    <h2>Popular Activities</h2>
+                    <p>{{ region.popular_activities|linebreaksbr }}</p>
+                </div>
+            </div>
+
+
+            <!-- <div class="down-row"> -->
+            <!-- Safety and Emergency Info -->
+            <!-- <div class="down-box">
+                    <h2>Safety and Emergency Info</h2>
+                    <p>{{ region.safety_info|linebreaksbr }}</p>
+                </div> -->
+            <!-- Estimated Cost -->
+            <!-- <div class="down-box">
+                    <h2>Estimated Cost</h2>
+                    <p>{{ region.estimate_cost|linebreaksbr }}</p>
+                </div>
+            </div> -->
+
+
+            <!-- <div class="down-row"> -->
+            <!-- Travel Tips -->
+            <!-- <div class="down-box">
+                    <h2>Travel Tips</h2>
+                    <p>{{ region.travel_tips|linebreaksbr }}</p>
+                </div> -->
+
+            <!-- Cultural Insights -->
+            <!-- <div class="down-box">
+                    <h2>Cultural Insights</h2>
+                    <p>{{ region.cultural_insights|linebreaksbr }}</p>
+                </div>
+            </div> -->
+
+
+            {% endif %}
+        </div>
+
+    </div>
+
+</main>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const chatroom = document.getElementById("chatroom");
+        const messageText = document.getElementById("messageText");
+        const sendMessage = document.getElementById("sendMessage");
+        const regionId = "{{ region.id }}";
+
+        // WebSocket connection
+        const ws = new WebSocket(`ws://${window.location.host}/ws/chat/${regionId}/`);
+
+        ws.onopen = function () {
+            console.log("✅ WebSocket connected");
+        };
+
+        ws.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+            const newMessage = `
+                <div class="message-container">
+                    <div class="message-avatar">
+                        <img src="${data.avatar}" alt="${data.username}'s Avatar" class="avatar-img" />
+                    </div>
+                    <p>
+                        <strong style="color: var(--color-main)">
+                            @${data.username} <span class="message-timestamp">(${data.timestamp})</span>
+                        </strong>
+                        <br> ${data.message}
+                    </p>
+                </div>`;
+            chatroom.innerHTML += newMessage;
+            chatroom.scrollTop = chatroom.scrollHeight; // Auto-scroll to latest message
+        };
+
+        ws.onclose = function (event) {
+            console.log("❌ WebSocket disconnected:", event);
+        };
+
+        ws.onerror = function (error) {
+            console.error("⚠️ WebSocket error:", error);
+        };
+
+        // Prevent Enter key from reloading page and send message via WebSocket
+        messageText.addEventListener("keydown", function (event) {
+            if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault(); // Prevent page reload
+                sendMessage.click(); // Trigger sending message
+            }
+        });
+
+        sendMessage.addEventListener("click", function () {
+            const message = messageText.value.trim();
+            if (message) {
+                ws.send(JSON.stringify({ message: message }));
+                messageText.value = ""; // Clear input field after sending
+            }
+        });
+    });
+
+    
+
+
+
+
+    // List of emojis to choose from
+    const emojis = ['🌍', '🌟', '🛕', '🌄', '🌸', '🏔️', '🏞️', '🌿', '🕊️', '🌷',
+        '🍀', '🍃', '🍁', '🍂', '🌻', '🌺', '🍄', '🌾', '🍊', '🍓',
+        '🌙', '⭐', '🌈', '🌞', '🌟', '☀️', '🌙', '🌌', '🌏', '🌐',
+        '🌊', '🌬️', '🔥', '🌧️', '❄️', '🌪️', '🌋', '🌳', '🍂', '🌾',
+        '🍃', '🌻', '🦋', '🐦', '🐝', '🐋', '🐘', '🐾', '🦓', '🦒'];
+
+    // Function to assign emojis randomly
+    function assignEmojis() {
+        const emojiElements = document.querySelectorAll(".emoji-placeholder");
+        emojiElements.forEach((element) => {
+            const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)]; // Random emoji
+            element.textContent = randomEmoji;
+        });
+    }
+
+    // Run once when the page loads
+    window.onload = assignEmojis;
+</script>
+
+
+
+
+<style>
+
+    /* Position the ExploreBot button in the top right corner */
+.explorebot-btn {
+    position: fixed;
+    top: 100px;
+    right: 30px;
+    background-color: #1c88a7;
+    padding: 15px; /* Increased padding for larger button */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.explorebot-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.explorebot-btn svg {
+    fill: white;
+}
+
+.explorebot-btn:hover svg {
+    fill: #ff7e5f;
+}
+
+
+
+    .bttn {
+        padding: 10px 20px;
+        font-size: 1.5rem;
+        color: white;
+        background-color: #1c88a7;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 20px;
+        border-radius: 10px;
+    }
+
+    .bttn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Style for the subscription section */
+    .down-section {
+        background: linear-gradient(145deg, #f9f9f9, #e0e5f4);
+        /* Soft gradient background */
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border: 2px solid #4d8af0;
+        /* Subtle border to highlight the section */
+        text-align: center;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .down-section h2 {
+        font-size: 2rem;
+        color: #34495e;
+        font-weight: bold;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .down {
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        flex: 1 1 45%;
+    }
+
+    .down-row {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+
+    .down-box {
+        flex: 1 1 calc(50% - 10px);
+        padding: 20px;
+        background-color: var(--color-dark-medium);
+        border-radius: 12px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .down-box:hover {
+        transform: scale(1.03);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .down-box::before {
+        content: "Exclusive";
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: #ff7e5f;
+        color: white;
+        padding: 5px 15px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        border-radius: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .down-box h2 {
+        font-size: 1.8rem;
+        color: #ffffff;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        border-bottom: 2px solid #37b2ff;
+        display: inline-block;
+        padding-bottom: 5px;
+    }
+
+    .down-box p {
+        color: #ffffff;
+    }
+
+
+
+    /* Ensure 2 boxes per row, even on smaller screens */
+    @media screen and (max-width: 768px) {
+        .down-row {
+            flex-direction: column;
+            /* Stack the rows vertically */
+        }
+
+        .down-box {
+            flex: 1 1 100%;
+            /* Ensure full width on smaller screens */
+        }
+    }
+
+
+
+    .message-timestamp {
+        font-size: 0.8em;
+        color: var(--color-main-light);
+        margin-left: 10px;
+    }
+
+    .containers {
+        display: flex;
+        gap: 20px;
+        max-width: 160rem;
+        width: 90%;
+        margin: auto;
+        flex-wrap: wrap;
+        /* Add flex-wrap for responsiveness */
+    }
+
+    .left-column,
+    .right-column {
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        flex: 1 1 45%;
+        /* Flexbox for responsive columns */
+        margin-bottom: 20px;
+    }
+
+    .left-column p,
+    .right-column p {
+        color: var(--color-main);
+    }
+
+    h2 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 2.5rem;
+        color: #e1f6fb;
+    }
+
+    .section {
+        margin-bottom: 30px;
+        padding: 20px;
+        background-color: var(--color-dark-medium);
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .section p {
+        color: white;
+    }
+
+    .section:hover {
+        transform: scale(1.03);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .section h2 {
+        font-size: 1.8rem;
+        color: #ffffff;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        border-bottom: 2px solid #37b2ff;
+        display: inline-block;
+        padding-bottom: 5px;
+    }
+
+    .section ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .section ul li {
+        background-color: #f7f9fc;
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        font-size: 1.5rem;
+        color: #000000;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .section ul li:hover {
+        background-color: #eaf0f9;
+        transform: translateX(10px);
+    }
+
+    .section ul li a {
+        display: block;
+        width: 100%;
+        height: 100%;
+        color: inherit;
+        text-decoration: none;
+        padding: 10px 15px;
+        border-radius: 8px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        color: #1f89ca;
+    }
+
+    .section ul li:hover a {
+        background-color: #eaf0f9;
+        transform: translateX(10px);
+        color: #076097;
+    }
+
+    .chatroom {
+        border: 2px;
+        padding: 15px;
+        background-color: var(--color-dark);
+        height: 400px;
+        overflow-y: auto;
+        border-radius: 8px;
+    }
+
+    .message-container {
+        position: relative;
+        margin-bottom: 15px;
+        display: flex;
+    }
+
+    .message-avatar {
+        margin-right: 10px;
+    }
+
+    .avatar-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .message-content {
+        flex-grow: 1;
+    }
+
+    .delete-cross {
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 1.5rem;
+        color: #0394b8;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    .delete-cross a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .delete-cross:hover {
+        color: #ffffff;
+    }
+
+    a {
+        text-decoration: none;
+        color: #2d98da;
+        font-weight: bold;
+        transition: color 0.3s ease;
+    }
+
+    a:hover {
+        color: #34495e;
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 12px 20px;
+        background: linear-gradient(90deg, #2d98da, #34495e);
+        color: white;
+        text-transform: uppercase;
+        font-weight: bold;
+        border-radius: 8px;
+        text-align: center;
+        transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .back-link:hover {
+        background: linear-gradient(90deg, #34495e, #2d98da);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .highlight {
+        font-weight: bold;
+        color: #e74c3c;
+    }
+
+    .map-container {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #a8c0ff, #3f2b96);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 12px;
+        color: white;
+        font-weight: bold;
+        font-size: 1.2rem;
+        overflow: hidden;
+    }
+
+    /* Media Queries for Responsiveness */
+    @media screen and (max-width: 768px) {
+        .containers {
+            flex-direction: column;
+            /* Stack columns vertically on smaller screens */
+        }
+
+        .left-column,
+        .right-column {
+            flex: 1 1 100%;
+            /* Full width for each column */
+            margin-bottom: 20px;
+        }
+
+        .section {
+            padding: 15px;
+            /* Reduce padding for smaller screens */
+        }
+
+        h2 {
+            font-size: 2rem;
+            /* Adjust heading size */
+        }
+
+        .section h2 {
+            font-size: 1.6rem;
+            /* Smaller section heading size */
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        .message-timestamp {
+            font-size: 0.7em;
+            /* Smaller timestamp font size */
+        }
+
+        .section ul li {
+            font-size: 1.2rem;
+            /* Smaller list item font size */
+        }
+
+        .section ul li a {
+            font-size: 1.2rem;
+            /* Adjust font size in links */
+        }
+
+        .chatroom {
+            height: 300px;
+            /* Smaller chatroom on very small screens */
+        }
+    }
+</style>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+from django.forms import ModelForm
+from django.contrib.auth.forms import UserCreationForm
+from .models import User, CustomerRequest, NewsletterSubscription
+from django import forms
+
+
+class MyUserCreationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['name', 'username', 'email', 'password1', 'password2']
+
+
+
+class UserForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['avatar', 'name', 'username', 'email', 'bio']
+
+
+class CustomerRequestForm(ModelForm):
+    class Meta:
+        model = CustomerRequest
+        fields = ['subject', 'description']
+        
+        
+
+
+class NewsletterForm(forms.ModelForm):
+    class Meta:
+        model = NewsletterSubscription
+        fields = ['email']

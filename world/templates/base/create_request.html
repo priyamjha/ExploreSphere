@@ -1,0 +1,233 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<main class="support-page">
+    <!-- Create a Support Request Container -->
+    <div class="container">
+    <section class="support-form-container">
+        <h2>Create a Support Request</h2>
+        <div class="layout__body">
+        <form method="post" class="form">
+            {% csrf_token %}
+            <div class="form__group">
+                        <label for="subject">Subject:</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    
+                    <div class="form__group">
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" required></textarea>
+                    </div>
+            <button type="submit" name="create_request">Submit Request</button>
+        </form>
+    </div>
+    </section>
+
+<br>
+
+    <!-- Support Requests List Container -->
+    <section class="support-requests-container">
+        <h2>Your Support Requests</h2>
+        {% if requests %}
+            <ul class="support-requests-list">
+                {% for request in requests %}
+                    <li class="support-request-item {% if request.status == 'pending' %}pending{% else %}resolved{% endif %}">
+                        <strong>Subject: {{ request.subject }}</strong> 
+                        <br>
+                        <span class="request-status">Status: {{ request.get_status_display }}</span> 
+                        <br>
+                        <span class="created-at">Created at: {{ request.created_at }}</span>
+                        <p class="description">{{ request.description|linebreaks }}</p>
+
+                        <hr class="custom-hr">
+                        
+                        {% if request.status == 'resolved' %}
+                            <p class="resolved-details">
+                                <span>Resolved on: {{ request.resolved_at }}</span><br>
+                                <strong>Agent:</strong> {{ request.solution|linebreaks }}
+                            </p>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p style="color: #fff;">No requests found.</p>
+        {% endif %}
+    </section>
+
+    </div>
+</main>
+
+
+<style>
+    .custom-hr {
+        border: none;
+        height: 1px;
+        background-color: #ccc; /* Light color */
+        width: 50%; /* Smaller width */
+        margin: 1rem auto; /* Centers the HR */
+    }
+    
+    
+    /* Main Layout */
+    .support-page {
+        background-color: var(--color-bg);
+        padding: 3rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Support Form Container */
+    .support-form-container {
+        background-color: var(--color-dark-medium);
+        padding: 2.5rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+    }
+    
+    .support-form-container h2 {
+        font-size: 2.4rem;
+        color: #fff;
+        text-align: center;
+        margin-bottom: 2rem;
+        font-weight: 700;
+    }
+    
+    .support-form-container form {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .support-form-container form button {
+        background-color: #1c88a7;
+        color: white;
+        padding: 12px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 1.6rem;
+        margin-top: 1rem;
+        transition: background-color 0.3s ease;
+    }
+    
+    .support-form-container form button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Support Requests List Container */
+    .support-requests-container {
+        padding: 2.5rem;
+        color:   var(--color-dark);
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .support-requests-container h2 {
+        font-size: 2.4rem;
+        color: #fff;
+        text-align: center;
+        margin-bottom: 2rem;
+        font-weight: 700;
+    }
+    
+    /* List of Support Requests */
+    .support-requests-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .support-requests-list li{
+        color: white;
+    }
+    
+    .support-request-item {
+        padding: 2rem;
+        border: 1px solid var(--color-light-gray);
+        border-radius: 8px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 1.5rem;
+        transition: box-shadow 0.3s ease;
+        max-width: 100%;
+        overflow: hidden;
+        word-wrap: break-word;
+        background-color: var(--color-bg);
+    }
+    
+    .support-request-item:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    .support-request-item strong {
+        font-size: 1.8rem;
+        font-weight: 500;
+        color: var(--color-main);
+    }
+    
+    .support-request-item .request-status,
+    .support-request-item .created-at {
+        font-size: 1.4rem;
+        color: var(--color-light-gray);
+        margin-top: 0.5rem;
+    }
+    
+    .support-request-item .description {
+        font-size: 1.4rem;
+        color: var(--color-gray);
+        margin-top: 1rem;
+        overflow-wrap: break-word;  /* Ensures that long words are wrapped within the box */
+        word-wrap: break-word;  /* Handles very long words */
+        max-height: 200px; /* Limits the height to avoid overflowing */
+        overflow-y: auto; /* Enables scroll if content exceeds the height */
+    }
+    
+    .support-request-item .resolved-details {
+        margin-top: 1rem;
+        font-size: 1.4rem;
+        color: var(--color-success);
+        font-style: italic;
+        overflow-wrap: break-word; /* Ensures that long words are wrapped within the box */
+        word-wrap: break-word;
+    }
+    
+    /* Status-specific styles */
+    .support-request-item.pending {
+        border-left: 6px solid var(--color-main);
+    }
+    
+    .support-request-item.resolved {
+        border-left: 6px solid var(--color-success);
+    }
+    
+    .support-request-item.resolved .resolved-details {
+        color: var(--color-light-gray);
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .support-page {
+            padding: 1.5rem;
+        }
+    
+        .support-form-container {
+            padding: 1.5rem;
+        }
+    
+        .support-requests-container {
+            padding: 1.5rem;
+        }
+    
+        .support-request-item {
+            padding: 1.5rem;
+        }
+    }
+    </style>
+    
+
+
+
+
+{% endblock %}

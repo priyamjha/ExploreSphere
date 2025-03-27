@@ -1,0 +1,831 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExploreSphere</title>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+                "Helvetica Neue", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f3ef;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px; /* Adjust this value for desired top margin */
+            left: 20px; /* Adjust this value for desired left margin */
+            width: 100px; /* Adjust the logo size */
+            height: auto;
+        }
+
+        /* Hero Section */
+        #hero {
+            background: linear-gradient(1350deg, #6A4C9C, #3D2C8D);
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        #hero h1 {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            font-weight: bolder;
+        }
+
+        #hero h1 a:hover {
+            box-shadow: 0 6px 12px rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+            padding: 0 20px;
+
+        }
+
+        #hero h1 span {
+            color: #07a0ff;
+            font-style: italic;
+            font-weight: bolder;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            /* Black outline effect */
+        }
+
+
+        #typed-output {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Before and After Subscription Section */
+        #before-after {
+            padding: 80px 20px;
+            background-color: #f5f3ef;
+            text-align: center;
+        }
+
+        #before-after h2 {
+            font-size: 2.5rem;
+            color: #1E2A38;
+            margin-bottom: 40px;
+        }
+
+        #before-after h3 {
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #37b2ff;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .before-after-container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .before-after-box {
+            width: 45%;
+            background-color: #30455e;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 20px #71c6dd;
+            transition: transform 0.3s ease;
+        }
+
+        .before-after-box:hover {
+            transform: scale(1.05);
+        }
+
+        .before-after-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .before-after-box ul li {
+            background-color: #f7f9fc;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            font-size: 1.5rem;
+            color: #000000;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .before-after-box ul li:hover {
+            background-color: #f9eaea;
+            box-shadow: 0 4px 8px lightpink;
+            transform: translateX(10px);
+        }
+
+        /* How to Use Section */
+        #how-to-use {
+            background-color: #f5f3ef;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        #how-to-use h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: #1E2A38;
+        }
+
+        .use-cards {
+            grid-column-gap: 1.5rem;
+            grid-row-gap: 1.5rem;
+            flex-flow: column;
+            justify-content: flex-start;
+            align-items: stretch;
+            margin-top: 3rem;
+            display: flex;
+        }
+
+        .use-card {
+            grid-column-gap: 6.25rem;
+            grid-row-gap: 6.25rem;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            margin-bottom: 3rem;
+        }
+
+        .use-card img {
+            width: 100%;
+            max-width: 31.25rem;
+            display: block;
+            border-radius: 1.5rem;
+        }
+
+        /* 
+        .use-card img:hover {
+            box-shadow: 0 60px 100px #7b58b3;
+            transform: translateY(-3px);
+        }
+            */
+
+        .use-card-text {
+            grid-column-gap: 1.5rem;
+            grid-row-gap: 1.5rem;
+            flex-flow: column;
+            width: 100%;
+            max-width: 31.25rem;
+            display: flex;
+            justify-content: center; /* This ensures vertical centering */
+    align-items: center; /* This ensures horizontal centering */
+    text-align: center;
+        }
+
+        .use-card-text h3 {
+            text-align: center;
+            letter-spacing: -.03em;
+            color: inherit;
+            margin-bottom: 0;
+            font-family: Reader, sans-serif;
+            font-size: 2rem;
+            font-weight: bolder;
+            line-height: 1.2;
+        }
+
+        .use-card-text p {
+            font-size: 1.5rem;
+            color: #000000;
+        }
+
+        .use-card-text a {
+            grid-column-gap: .5rem;
+            grid-row-gap: .5rem;
+            background-color: var(--pink);
+            color: var(--white-fff);
+            text-align: center;
+            border-radius: 100vw;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            font-family: Reader, sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            line-height: 1.5;
+            transition: transform .2s, box-shadow .2s;
+            display: flex;
+            box-shadow: 0 .5rem 1.5rem #0000001a;
+        }
+
+        .button-new.is-white {
+            background-color: white;
+            color: black;
+            font-weight: bolder;
+          }
+        .button-new.is-white:hover {
+            transform: translateY(-5px);
+          }
+
+        .button-new-icon {
+            flex: none;
+            width: .5rem;
+            height: .5625rem;
+            transition: transform .3s;
+          }
+
+        .use-card:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        /* Button Section */
+        .explore-btn-container {
+            text-align: center;
+            margin-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f3ef;
+            color: white;
+            padding: 60px 20px;
+        }
+
+        .explore-btn {
+            padding: 20px 40px;
+            font-size: 1.4rem;
+            background-color: #7b58b3;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .explore-btn:hover {
+            background-color: #1c88a7;
+            transform: translateY(-5px);
+        }
+
+        /* Newsletter Section */
+        #newsletter {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            align-items: center;
+            background-repeat: no-repeat;
+            background-position: 20% 30%;
+            background-color: #30455e;
+        }
+
+        #newsletter h4 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        #newsletter p {
+            font-size: 14px;
+            font-weight: 600;
+            color: #818ea0;
+        }
+
+        #newsletter p span {
+            color: #ffbd27;
+        }
+
+        #newsletter .form {
+            display: flex;
+            width: 40%;
+            padding-right: 80px;
+        }
+
+        #newsletter .newstext {
+            padding-left: 80px;
+        }
+
+        #newsletter input {
+            height: 3.125rem;
+            padding: 0 1.25rem;
+            font-size: 14px;
+            flex-grow: 1;
+            border: 1px solid transparent;
+            outline: none;
+            border-radius: 30px;
+            width: 60%;
+        }
+
+        #newsletter button {
+            background-color: #1c88a7;
+            color: #fff;
+            white-space: nowrap;
+            border-radius: 30px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            height: 3.125rem;
+            min-width: 120px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            text-transform: uppercase;
+        }
+
+        #newsletter button:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Footer Start */
+        footer {
+            background-color: #1E2A38;
+            color: #fff;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            text-align: left;
+        }
+
+        footer .col {
+            margin-bottom: 20px;
+        }
+
+        footer .logo {
+            margin-bottom: 30px;
+        }
+
+        footer h4 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        footer p {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        footer a {
+            font-size: 14px;
+            color: #ccc;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        footer .follow i {
+            color: #fff;
+            padding-right: 10px;
+            cursor: pointer;
+        }
+
+        footer .follow i:hover {
+            color: #FFBD27;
+        }
+
+        footer .copyright {
+            text-align: center;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        footer .install .row img {
+            border: 1px solid #088178;
+            margin: 10px;
+        }
+
+        footer .install img {
+            margin: 10px 0;
+        }
+
+        footer .install p {
+            font-size: 13px;
+        }
+
+        footer .copyright p {
+            font-size: 12px;
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 768px) {
+            #hero h1 {
+                font-size: 3rem;
+            }
+
+            .before-after-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .before-after-box {
+                width: 90%;
+                margin-bottom: 20px;
+            }
+
+            .use-card {
+                flex-direction: column;
+            }
+
+            .use-card-text p {
+                font-size: 1.2rem;
+                /* Slightly smaller text on smaller screens */
+                line-height: 1.6;
+                /* Adjust line-height for better readability */
+            }
+
+            .use-card img {
+                width: 100%;
+                /* Make the image take full width */
+                height: auto;
+                /* Maintain aspect ratio */
+            }
+
+            .use-card-text {
+                width: 100%;
+                padding: 15px;
+            }
+
+            #newsletter .newstext {
+                padding-left: 30px;
+            }
+
+
+            #newsletter .form {
+                width: 100%;
+                padding: 20px;
+            }
+
+            footer .col {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+        }
+
+        #video {
+            background: linear-gradient(1350deg, #6A4C9C, #3D2C8D);
+            color: white;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: background-color 0.3s ease;
+        }
+
+        #video video {
+            width: 80%;
+            /* Adjust the width of the video */
+            height: 80%;
+            /* Adjust the height of the video */
+            max-width: 960px;
+            /* Limit the max width */
+            max-height: 540px;
+            /* Limit the max height */
+            display: block;
+            /* Ensure the video is a block element */
+            position: relative;
+            /* For the play/pause button positioning */
+            border-radius: 8px;
+            /* Optional: Add rounded corners to the video */
+            box-shadow: 0px 4px 60px rgba(255, 255, 255, 0.4), 0px 4px 80px rgba(242, 48, 170, 0.5), 0px 40px 108px rgba(0, 0, 0, 0.5), inset 0px 4px 40px rgba(242, 48, 170, 0.5);
+            object-fit: cover;
+            /* Ensure video fits well within its box */
+        }
+
+        /* Button styles */
+        #play-pause-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 50px;
+            color: white;
+            cursor: pointer;
+            z-index: 10;
+            /* Ensure it's above the video */
+            display: none;
+            /* Initially hide the button */
+            transition: opacity 0.3s ease;
+            /* Smooth transition when showing/hiding the button */
+            width: 90px;
+            /* Width of the button */
+            height: 90px;
+            /* Height of the button */
+            border-radius: 50%;
+            /* Make the button round */
+            background-color: rgb(201, 89, 176);
+            /* Light pink background */
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        /* Show the button when hovering over the video */
+        #video video:hover+#play-pause-btn {
+            display: block;
+            opacity: 0.5;
+            /* Fully show the button when hovering */
+        }
+    </style>
+</head>
+
+<body>
+
+
+     <!-- Logo -->
+     <img src="{% static 'images/logo.svg' %}" class="logo" alt="ExploreSphere Logo">
+
+     
+    <!-- Hero Section -->
+    <section id="hero">
+        <h1>Welcome to <a href="{% url 'home' %}"><span>Explore Sphere</span></a></h1>
+        <div class="animated-text">
+            <span id="typed-output"></span>
+        </div>
+
+    </section>
+
+    <!-- video -->
+    <section id="video">
+        <!-- Local video embedded -->
+        <video id="my-video" width="80%" height="80%" onclick="togglePlayPause()">
+            <source src="{% static 'video/59d962dfe1.mp4' %}" type="video/mp4">
+            <!-- Message for unsupported video formats -->
+            <p style="color: white; text-align: center;">Your browser does not support the video tag.</p>
+        </video>
+        <!-- Custom Play/Pause Button -->
+        <div id="play-pause-btn" onclick="togglePlayPause()">
+            <span id="play-icon">▶</span>
+            <span id="pause-icon" style="display: none;">⏸</span>
+        </div>
+    </section>
+
+
+    <!-- Before and After Subscription Section -->
+    <section id="before-after">
+        <h2>What You Get... ✨</h2>
+        <div class="before-after-container">
+            <div class="before-after-box">
+                <h3>Before Subscription 🛑</h3>
+                <ul>
+                    <li>Basic Regional Details 🌍</li>
+                    <li>Free Access to Weather Information 🌦️</li>
+                    <li>Chatroom for Sharing Suggestions 💬</li>
+                    <li>Interactive Maps 🗺️</li>
+                </ul>
+            </div>
+            <div class="before-after-box">
+                <h3>After Subscription ✅</h3>
+                <ul>
+                    <li>Exclusive Insights 🎭</li>
+                    <li>Access to Premium Chatbot Features 🤖</li>
+                    <li>Quick Links to Hotels, Cottages, and Restaurants 🏨🍴</li>
+                    <li>24/7 Customer Support 📞</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Use Section -->
+    <section id="how-to-use">
+        <h2>How to Use ExploreSphere... 🚀</h2>
+        <div class="use-cards">
+            <div class="use-card">
+                <img src="{% static 'images/Screenshot 2025-03-17 224339.png' %}" alt="Step 1">
+                <div class="use-card-text">
+                    <h3>Register & Explore 📝</h3>
+                    <p>Create an account to share your travel experiences or purchase a premium subscription. 🌐</p>
+                    <a class="button-new is-white w-inline-block" href="login">
+                        <div>See the page</div> <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 9 10"
+                            fill="none" class="button-new-icon">
+                            <path d="M8.80404 4.99996L0.195953 9.90813V0.0917969L8.80404 4.99996Z" fill="currentColor">
+                            </path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="use-card">
+                <img src="{% static 'images/Screenshot 2025-03-17 224418.png' %}" alt="Step 2">
+                <div class="use-card-text">
+                    <h3>Hover Over States 🗺️</h3>
+                    <p>Hover over any state on the India map and click on the state you want to explore. 🖱️</p>
+                    <a class="button-new is-white w-inline-block" href="/home">
+                        <div>See the page</div> <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 9 10"
+                            fill="none" class="button-new-icon">
+                            <path d="M8.80404 4.99996L0.195953 9.90813V0.0917969L8.80404 4.99996Z" fill="currentColor">
+                            </path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="use-card">
+                <img src="{% static 'images/Screenshot 2025-03-17 224543.png' %}" alt="Step 3">
+                <div class="use-card-text">
+                    <h3>Explore Regions 🌍</h3>
+                    <p>Choose any region you want to discover and get in-depth information. 📍</p>
+                    <!-- <a class="button-new is-white w-inline-block" href="">
+                        <div>See the page</div> <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 9 10"
+                            fill="none" class="button-new-icon">
+                            <path d="M8.80404 4.99996L0.195953 9.90813V0.0917969L8.80404 4.99996Z" fill="currentColor">
+                            </path>
+                        </svg>
+                    </a> -->
+                </div>
+            </div>
+            <div class="use-card">
+                <img src="{% static 'images/Screenshot (242).png' %}" alt="Step 4">
+                <div class="use-card-text">
+                    <h3>Plan Your Journey 🛣️</h3>
+                    <p>Use interactive maps, weather info, and join the chatroom to connect with fellow travelers, share
+                        tips, and find your perfect travel partner! 💬🤝</p>
+                        <!-- <a class="button-new is-white w-inline-block" href="">
+                        <div>See the page</div> <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 9 10"
+                            fill="none" class="button-new-icon">
+                            <path d="M8.80404 4.99996L0.195953 9.90813V0.0917969L8.80404 4.99996Z" fill="currentColor">
+                            </path>
+                        </svg>
+                    </a> -->
+                </div>
+            </div>
+            <div class="use-card">
+                <img src="{% static 'images/Screenshot 2025-03-17 224824.png' %}" alt="Step 5">
+                <div class="use-card-text">
+                    <h3>Subscribe for Exclusive Features 🔑</h3>
+                    <p>Unlock premium content, travel insights, 24/7 customer support, and a chatbot ready to assist you
+                        anytime! 💬🕒 Get quick links to essential services and enjoy a one-time payment option. 🔓🚀
+                    </p>
+                    <!-- <a class="button-new is-white w-inline-block" href="">
+                        <div>See the page</div> <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 9 10"
+                            fill="none" class="button-new-icon">
+                            <path d="M8.80404 4.99996L0.195953 9.90813V0.0917969L8.80404 4.99996Z" fill="currentColor">
+                            </path>
+                        </svg>
+                    </a> -->
+                </div>
+            </div>
+            <div class="use-card">
+                <img src="{% static 'images/image.png' %}" alt="Step 6">
+                <div class="use-card-text">
+                    <h3>Exclusive Insights 🎭</h3>
+                    <p>Get access to top attractions, local cuisines, and travel tips, more and more. 🏛️</p>
+                    <!-- <a class="button-new is-white w-inline-block" href="">
+                        <div>See the page</div> <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 9 10"
+                            fill="none" class="button-new-icon">
+                            <path d="M8.80404 4.99996L0.195953 9.90813V0.0917969L8.80404 4.99996Z" fill="currentColor">
+                            </path>
+                        </svg>
+                    </a> -->
+                </div>
+            </div>
+            <div class="use-card">
+                <img src="{% static 'images/Screenshot 2025-03-17 234331.png' %}" alt="Step 7">
+                <div class="use-card-text">
+                    <h3>Chat with Our Travel Planner 🤖</h3>
+                    <p>Let our chatbot assist you in creating your perfect travel plan! 🗺️✈️ We’ve got
+                        you covered with personalized suggestions for your next adventure.</p>
+                        <!-- <a class="button-new is-white w-inline-block" href="">
+                        <div>See the page</div> <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 9 10"
+                            fill="none" class="button-new-icon">
+                            <path d="M8.80404 4.99996L0.195953 9.90813V0.0917969L8.80404 4.99996Z" fill="currentColor">
+                            </path>
+                        </svg>
+                    </a> -->
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Button section -->
+    <div class="explore-btn-container">
+        <button class="explore-btn" onclick="window.location.href='/home'">Explore Our Website</button>
+    </div>
+
+    <!-- Newsletter Section -->
+    <section id="newsletter">
+        <div class="newstext">
+            <h4>Sign Up For Newsletters</h4>
+            <p>Get E-Mail updates about our latest regions and <span>Special Offers.</span></p>
+        </div>
+        <div class="form">
+            <form method="POST" style="width: 100%;">
+                {% csrf_token %}
+                <input type="email" id="id_email" name="email" placeholder="Enter your email" required>
+                <!-- Submit button -->
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="col">
+            <img class="logo" src="{% static 'images/logo.svg' %}" width="130px" height="70px" alt="">
+            <h4>Contact</h4>
+            <p><strong>Address:</strong> Bhadri Niwas, Pushp Vihar, Sector-3, New Delhi</p>
+            <p><strong>Phone:</strong> (+91) 01 2345 6789 / (+91) 98 7654 3210 </p>
+            <p><strong>Hours:</strong> 10:00 - 18:00, Mon - Sat </p>
+            <div class="follow">
+                <h4>Follow US</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-pinterest"></i>
+                    <i class="fab fa-youtube"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <h4>About</h4>
+            <a href="#">About US</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Contact US</a>
+        </div>
+        <div class="col install">
+            <h4>Install App</h4>
+            <p>From App Store And Play Store</p>
+            <div class="row">
+                <img src="{% static 'images/app.jpg' %}" alt="">
+                <img src="{% static 'images/play.jpg' %}" alt="">
+            </div>
+            <p>Secured Payment Gateways</p>
+            <img src="{% static 'images/pay.png' %}" alt="">
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 ExploreSphere. All Rights Reserved. | <a href="#">Privacy Policy</a></p>
+        </div>
+    </footer>
+
+
+    <script>
+        // Initialize the typed.js effect
+        var options = {
+            strings: [
+                "Travel Insights....",
+                "Exclusive Maps....",
+                "Instant Updates....",
+                "Interactive Experiences....",
+                "Real-Time Data....",
+                "Explore Hidden Gems....",
+                "User Reviews & Ratings....",
+                "City Guides....",
+                "Weather Forecasts....",
+                "Local Experiences....",
+                "Easy Navigation....",
+                "Detailed Itineraries....",
+                "Cultural Insights....",
+                "Expert Tips....",
+                "Discounted Travel Deals....",
+                "Adventure Awaits....",
+                "Stay Connected on the Go....",
+                "Instant Notifications....",
+                "Personalized Recommendations....",
+                "Top-Rated Destinations...."
+            ],
+            typeSpeed: 50,
+            backSpeed: 50,
+            loop: true
+        };
+
+        var typed = new Typed("#typed-output", options);
+
+        function togglePlayPause() {
+            var video = document.getElementById('my-video');
+            var playIcon = document.getElementById('play-icon');
+            var pauseIcon = document.getElementById('pause-icon');
+
+            if (video.paused) {
+                video.play(); // Play the video if paused
+                playIcon.style.display = 'none'; // Hide play icon
+                pauseIcon.style.display = 'inline'; // Show pause icon
+            } else {
+                video.pause(); // Pause the video if playing
+                playIcon.style.display = 'inline'; // Show play icon
+                pauseIcon.style.display = 'none'; // Hide pause icon
+            }
+        }
+    </script>
+
+</body>
+
+</html>
