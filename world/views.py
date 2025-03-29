@@ -313,6 +313,42 @@ def region_detail(request, region_id):
 
 
 
+# def region_detail(request, region_id):
+#     # Use select_related to optimize queries for related fields like state, user (if needed), etc.
+#     region = Region.objects.select_related('state').get(id=region_id)
+#     weather = None
+
+#     # Only fetch weather if latitude and longitude are valid
+#     if region.latitude and region.longitude:
+#         weather = get_weather(region.latitude, region.longitude)
+
+#     # Fetch chat messages with prefetch_related to optimize fetching related User model
+#     chat_messages = ChatMessage.objects.filter(region=region).order_by('timestamp').select_related('user')
+
+#     if request.method == "POST" and request.user.is_authenticated:
+#         message_text = request.POST.get("message")
+#         if message_text:
+#             ChatMessage.objects.create(region=region, user=request.user, message=message_text)
+
+#         # After the message is sent, redirect to avoid re-submission
+#         return redirect('region_detail', region_id=region.id)
+
+#     # Create folium map only if latitude and longitude are available
+#     map_html = None
+#     if region.latitude and region.longitude:
+#         m = folium.Map(location=[region.latitude, region.longitude], zoom_start=12)
+#         folium.Marker([region.latitude, region.longitude], popup=f"{region.name}").add_to(m)
+#         map_html = m._repr_html_()
+
+#     return render(request, 'base/region_detail.html', {
+#         'region': region,
+#         'map_html': map_html,
+#         'weather': weather,
+#         'chat_messages': chat_messages,
+#     })
+    
+    
+
 def home(request):
     country = Country.objects.get(name="India")
     states = country.states.all()

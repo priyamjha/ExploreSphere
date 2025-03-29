@@ -59,6 +59,52 @@
             </div>
 
 
+            <!-- Chatroom Section -->
+            <!-- <div class="section">
+                <h2>Chatroom</h2>
+                <div class="chatroom">
+                    {% for message in chat_messages %}
+                    <div class="message-container">
+                        <div class="message-avatar">
+                            <img src="{{ message.user.avatar.url }}" alt="{{ message.user.username }}'s Avatar"
+                                class="avatar-img" />
+                        </div>
+                        <p><strong style=" color: var(--color-main)">@{{ message.user.username }} <span
+                                    class="message-timestamp">
+                                    ({{ message.timestamp|timesince }})
+                                </span>
+                                <br>
+                            </strong> 
+                            {{ message.message|linebreaksbr }}
+                            <br>
+
+                            {% if message.user == user %}
+                            <span class="delete-cross">
+                                <a href="{% url 'delete_message' message.id %}" title="Delete Message">×</a>
+                            </span>
+                            {% endif %}
+                        </p>
+                    </div>
+                    {% empty %}
+                    <p>No messages yet. Be the first to say something!</p>
+                    {% endfor %}
+                </div>
+
+                {% if user.is_authenticated %}
+                <form method="POST" style="margin-top: 10px;">
+                    {% csrf_token %}
+                    <textarea id="messageText" name="message" rows="3"
+                        style="background-color: var(--color-dark-medium);  color: white; width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ddd;"
+                        placeholder="Type your message here..." required></textarea>
+                    <button type="submit" class="bttn">Send</button>
+                </form>
+                {% else %}
+                <p>You must <a href="/login/">log in</a> to send messages.</p>
+                {% endif %}
+            </div> -->
+
+
+
 
 
         </div>
