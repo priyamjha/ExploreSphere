@@ -21,13 +21,13 @@
 ## 🛠️ Technologies Used
 
 - **Backend**: Django, Django REST Framework
-- **Database**: PostgreSQL
+- **Database**: SQLite
 - **Payment Gateway**: Stripe
 - **Chatbot**: Ollama API
 - **Maps**: Folium
 - **Weather**: OpenWeather API
 - **AI Video Agent**: Tavus.io
-- **Newsletter**: Custom Email Integration (can be Mailchimp or SMTP-based)
+- **Newsletter**: Custom Email Integration (SMTP-based)
 
 ---
 
@@ -35,7 +35,7 @@
 
 - Python 3.x  
 - Django 3.x or above  
-- PostgreSQL or SQLite  
+- SQLite  
 - Stripe, OpenWeather, and Ollama API keys  
 - Virtual environment (`venv`)  
 - All Python packages in `requirements.txt`
@@ -141,7 +141,7 @@ python manage.py runserver
 | `/region/<region_id>/` | GET | Region details + weather + map |
 | `/chatbot/<region_id>/` | POST | Ask chatbot questions |
 | `/subscription/` | POST | Stripe subscription process |
-| `/newsletter/subscribe/` | POST | Subscribe to newsletter |
+| `/newsletter/` | POST | Subscribe to newsletter |
 
 ---
 
@@ -174,6 +174,5 @@ MIT License – see the [LICENSE](LICENSE) file.
 Let me know if you want this README in a downloadable `.md` file or if you'd like a badge-based header section like:
 ```
 ![Django](https://img.shields.io/badge/Django-3.x-blue)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14-blue)
 ...
 ```
