@@ -175,4 +175,3 @@ Let me know if you want this README in a downloadable `.md` file or if you'd lik
 ```
 ![Django](https://img.shields.io/badge/Django-3.x-blue)
 ...
-```
