@@ -1,171 +1,181 @@
+---
 
-# ExploreSphere Django Web Application
+# 🌏 ExploreSphere – Discover India Like Never Before
 
+## 📝 Description
 
-## Description
+**ExploreSphere** is an interactive and intelligent travel exploration platform built with Django. It enables users to dive deep into India’s regional diversity through cultural insights, weather information, attractions, cuisine, and safety tips. The platform offers personalized features like AI-powered chat, subscription services, and even a video-based AI guide powered by **Tavus.io** to explain the website’s purpose!
 
-ExploreSphere is an interactive web application built using Django that allows users to explore different regions in India. It provides users with information about regional details, weather, cultural insights, travel tips, and more. Additionally, users can interact with a chatbot for dynamic queries, make subscription payments, and request support.
+## 🚀 Features
 
-## Features
+- 🔐 **User Authentication** – Secure login, registration, and profile management.
+- 📍 **Regional Exploration** – Pages rich with cultural, culinary, and safety information for different Indian regions.
+- 🤖 **AI TravelMate Chatbot** – Dynamic travel Q&A bot using the **Ollama API**.
+- 🌦️ **Live Weather Updates** – Integrated with the **OpenWeather API**.
+- 💳 **Premium Subscriptions** – Unlock exclusive content via **Stripe** checkout.
+- 🗺️ **Interactive Maps** – Regional maps built using **Folium**.
+- 📬 **Newsletter Subscription** – Stay updated with curated travel tips and updates.
+- 🧠 **AI Video Guide** – AI agent video (powered by **Tavus.io**) that introduces the site and its features.
+- 🛠️ **Support System** – Users can create and track support requests.
 
-- **User Authentication**: Secure login, registration, and profile management.
-- **Region Information**: Detailed pages for various regions, with data on culture, safety, cuisine, attractions, and more.
-- **Chatbot Integration**: A dynamic chatbot that uses predefined responses and AI-powered Ollama API to answer user queries about regions.
-- **Weather Data**: Fetch live weather data using the OpenWeather API for each region.
-- **Subscription System**: Users can subscribe to premium features through Stripe, including access to exclusive content.
-- **Support Requests**: Users can create and manage customer support requests.
-- **Interactive Maps**: Real-time maps powered by Folium, showing the geographical location of each region.
-  
-## Technologies Used
+---
 
-- **Django**: Web framework for building the application.
-- **PostgreSQL**: Database for storing user and region-related data.
-- **Stripe**: Payment gateway for subscription management.
-- **Folium**: For creating interactive maps with geographical information.
-- **Ollama API**: Used to generate dynamic chatbot responses.
-- **OpenWeather API**: Fetches live weather data for regions.
+## 🛠️ Technologies Used
 
-## Requirements
+- **Backend**: Django, Django REST Framework
+- **Database**: PostgreSQL
+- **Payment Gateway**: Stripe
+- **Chatbot**: Ollama API
+- **Maps**: Folium
+- **Weather**: OpenWeather API
+- **AI Video Agent**: Tavus.io
+- **Newsletter**: Custom Email Integration (can be Mailchimp or SMTP-based)
 
-- Python 3.x
-- Django 3.x or higher
-- Sqlite (or other configured database)
-- Stripe API Key
-- OpenWeather API Key
-- Ollama API Key
-- Installed dependencies in `requirements.txt`
+---
 
-## Installation
+## ⚙️ Requirements
 
-### Step 1: Clone the repository
+- Python 3.x  
+- Django 3.x or above  
+- PostgreSQL or SQLite  
+- Stripe, OpenWeather, and Ollama API keys  
+- Virtual environment (`venv`)  
+- All Python packages in `requirements.txt`
 
-Clone the repository to your local machine:
+---
+
+## 🧩 Installation Guide
+
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/priyamjha/ExploreSphere.git
+cd ExploreSphere
 ```
 
-### Step 2: Set up the environment
-
-Navigate to the project directory and create a virtual environment:
+### 2. Create a Virtual Environment
 
 ```bash
-cd ExploreSphere
 python -m venv venv
-source venv/bin/activate  # On Windows use 'venv\Scripts\activate'
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-### Step 3: Install dependencies
-
-Install the required Python packages:
+### 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### Step 4: Configure the environment variables
+### 4. Set Up Environment Variables
 
-Create a `.env` file in the project root and add the following:
+Create a `.env` file in the root folder:
 
 ```env
-SECRET_KEY=your_django_secret_key
+SECRET_KEY=your_secret_key
 DEBUG=True
-ALLOWED_HOSTS=localhost, 127.0.0.1
+ALLOWED_HOSTS=127.0.0.1,localhost
 
 DATABASE_URL=postgres://username:password@localhost/dbname
 
-STRIPE_SECRET_KEY=your_stripe_secret_key
-STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+STRIPE_SECRET_KEY=your_stripe_secret
+STRIPE_PUBLISHABLE_KEY=your_stripe_public
 
-OPENWEATHER_API_KEY=your_openweather_api_key
+OPENWEATHER_API_KEY=your_weather_key
 OLLAMA_API_URL=http://localhost:11434/v1/chat/completions
 ```
 
-Make sure to replace placeholders with your actual credentials.
-
-### Step 5: Set up the database
-
-Run the database migrations to set up the schema:
+### 5. Apply Migrations
 
 ```bash
 python manage.py migrate
 ```
 
-### Step 6: Create a superuser
-
-Create a superuser to access the Django admin interface:
+### 6. Create Admin User
 
 ```bash
 python manage.py createsuperuser
 ```
 
-### Step 7: Run the server
-
-Start the Django development server:
+### 7. Run the Server
 
 ```bash
 python manage.py runserver
 ```
 
-You can now access the application at `http://127.0.0.1:8000/`.
+---
 
-## How to Use
+## 🧭 Usage Instructions
 
-### User Authentication
+### 🌍 Region Exploration
 
-- Users can **register** and **log in** to the platform. Profile management is available, where users can update their details and profile picture.
+- Visit the **Regions** section to explore state-wise data on culture, cuisine, weather, maps, and more.
 
-### Region Information
+### 💬 Chatbot
 
-- On the **Region List** page, users can browse different states and regions in India. Each region has a detailed page showcasing:
-  - **Weather Information**: Current weather conditions via OpenWeather API.
-  - **Regional Information**: About the region, safety tips, local cuisine, attractions, cultural insights, etc.
-  - **Interactive Map**: Displays a map centered around the region’s geographical location, powered by Folium.
+- Chat with the **TravelMate** bot for travel guidance and region-based suggestions.
 
-### Chatbot
+### 💎 Premium Subscription
 
-- Users can interact with the **TravelMate chatbot** by sending queries about specific regions. The chatbot utilizes both predefined responses and dynamic AI-powered responses from the Ollama API.
+- Unlock premium content via **Stripe checkout**. Users get:
+  - Advanced regional insights
+  - Early newsletter access
+  - Chatbot enhancements
 
-### Subscription
+### 📺 AI Video Agent
 
-- Users can subscribe to premium content via Stripe. Payment and subscription management are handled through Stripe's checkout process.
-  - **Subscription Success**: After a successful payment, users gain access to premium content.
-  - **Subscription Invoice**: View invoice details for all subscription-related transactions.
+- Meet our AI spokesperson powered by **Tavus.io**, who walks you through ExploreSphere’s goals and features.
 
-### Support Requests
+### 📰 Newsletter
 
-- Users can create **support requests** which are stored in the database for admins to respond to.
+- Sign up to our newsletter to receive travel stories, cultural tips, and platform updates right in your inbox.
 
-## API Endpoints
+### ❓ Support
 
-- **GET `/regions/<state_id>/`**: Lists all regions for a given state.
-- **GET `/region/<region_id>/`**: Displays region-specific information including weather, cultural insights, and a map.
-- **POST `/chatbot/<region_id>/`**: Send a user message to the chatbot for dynamic answers regarding the region.
-- **POST `/subscription/`**: Initiates the subscription process with Stripe.
-  
-### Core Components
+- Create and manage **support tickets** for any issues or feedback.
 
-- **models.py**: Defines all the database models including `Region`, `Subscription`, `ChatMessage`, and `CustomerRequest`.
-- **views.py**: Handles the main logic for rendering region pages, handling subscriptions, managing chatbot interactions, and processing support requests.
-- **forms.py**: Handles form rendering for user registration, profile updates, and support requests.
-- **utils.py**: Contains utility functions like fetching weather data and interacting with the Ollama API.
+---
 
-## License
+## 🔌 API Endpoints
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+| Endpoint | Method | Description |
+|---------|--------|-------------|
+| `/regions/<state_id>/` | GET | List all regions under a state |
+| `/region/<region_id>/` | GET | Region details + weather + map |
+| `/chatbot/<region_id>/` | POST | Ask chatbot questions |
+| `/subscription/` | POST | Stripe subscription process |
+| `/newsletter/subscribe/` | POST | Subscribe to newsletter |
 
-## Acknowledgements
+---
 
-- [Django](https://www.djangoproject.com/) - Web framework for building the project.
-- [Stripe](https://stripe.com/) - Payment processing for subscriptions.
-- [Folium](https://python-visualization.github.io/folium/) - Used for rendering interactive maps.
-- [Ollama API](https://ollama.com/) - AI-powered chatbot service used for dynamic responses.
-- [OpenWeather API](https://openweathermap.org/api) - Used for fetching weather information.
+## 🗂️ Code Structure Highlights
 
+- `models.py` – Region, Subscription, ChatMessage, Newsletter, CustomerRequest  
+- `views.py` – Business logic for all core features  
+- `forms.py` – User auth, profile, newsletter, and support forms  
+- `utils.py` – Utility functions for APIs and chatbot
 
-### Key Updates:
-- **Comprehensive Overview**: The `README.md` provides a full description of your application, its features, and instructions on how to set it up.
-- **Step-by-Step Setup**: Clear instructions are provided for installing dependencies, setting up environment variables, and running the server.
-- **Technology Stack**: The tools used in the project (Django, Stripe, Folium, Ollama, etc.) are clearly explained.
-- **Usage Section**: It details how users can interact with the app, including subscription management, chatbot functionality, and exploring different regions.
+---
 
+## 📄 License
+
+MIT License – see the [LICENSE](LICENSE) file.
+
+---
+
+## 🙌 Acknowledgements
+
+- [Django](https://www.djangoproject.com/)
+- [Stripe](https://stripe.com/)
+- [Folium](https://python-visualization.github.io/folium/)
+- [Ollama](https://ollama.com/)
+- [OpenWeather](https://openweathermap.org/api)
+- [Tavus.io](https://tavus.io) – For AI video integration
+
+---
+
+Let me know if you want this README in a downloadable `.md` file or if you'd like a badge-based header section like:
+```
+![Django](https://img.shields.io/badge/Django-3.x-blue)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14-blue)
+...
+```
