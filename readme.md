@@ -174,4 +174,3 @@ MIT License – see the [LICENSE](LICENSE) file.
 Let me know if you want this README in a downloadable `.md` file or if you'd like a badge-based header section like:
 ```
 ![Django](https://img.shields.io/badge/Django-3.x-blue)
-...
