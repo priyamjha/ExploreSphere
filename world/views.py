@@ -431,7 +431,7 @@ def front(request):
 # def fetch_tavus_video():
 #     url = "https://tavusapi.com/v2/videos/video id"
 
-#     headers = {"x-api-key": "api key"}
+#     headers = {"x-api-key": "api-key"}
     
 #     try:
 #         response = requests.get(url, headers=headers)
