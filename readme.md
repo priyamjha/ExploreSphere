@@ -1,5 +1,3 @@
----
-
 # 🌏 ExploreSphere – Discover India Like Never Before
 
 ## 📝 Description
